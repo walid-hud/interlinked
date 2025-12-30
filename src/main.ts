@@ -6,7 +6,7 @@ import { $ } from "./utils";
 import { Store } from "./localstorage";
 import { data, type Question } from "./data";
 gsap.registerPlugin(ScrambleTextPlugin, SplitText);
-// const sleep = async (n: number) => new Promise((r) => setTimeout(r, n));
+const sleep = async (n: number) => new Promise((r) => setTimeout(r, n));
 const start_btn = $<HTMLButtonElement>(".start-btn > button");
 const store = new Store();
 const game_stats = $<HTMLDivElement>(".game-stats");
@@ -88,7 +88,7 @@ function start_timer(time: number, cb?: () => void) {
     { width: "100%", duration: time, ease: "power1.inOut", onComplete: cb }
   );
 }
-function show_timer_text(time: number) {
+function show_timer_text(time: number , on_timer_end:()=>void) {
   gsap.fromTo(
     ".timer-text",
     { innerText: 10 },
@@ -98,6 +98,7 @@ function show_timer_text(time: number) {
       delay: 0.1,
       ease: "none",
       snap: { innerText: 1 },
+      onComplete:on_timer_end
     }
   );
 }
@@ -109,25 +110,48 @@ async function show_question(question: Question): Promise<void> {
       duration: 1,
       scrambleText: { text: question.question, rightToLeft: false },
     });
-    show_timer_text(10);
-    start_timer(10, res);
-    show_options(question.options, () => {});
+    show_options(question);
+    show_timer_text(10, async ()=>{
+      const correct = options.find(b=>Number(b.getAttribute("data-option-index"))===question.correct_idx)
+      if(correct){
+          correct.classList.add("option-correct")
+        }
+        await sleep(1000)
+        options.forEach(e=>e.style.pointerEvents="auto")
+        res()
+    });
+    start_timer(10, );
   });
 }
 
 function show_options(
-  options_text: string[],
-  cb: (this: HTMLButtonElement, ev: PointerEvent) => void
+  question:Question,
 ) {
   options.forEach((opt, idx) => {
+    opt.classList.remove("option-correct"  , "option-wrong")
     gsap.to(opt, {
       duration: 1,
       scrambleText: {
-        text: options_text[idx],
+        text: question.options[idx],
         rightToLeft: false,
       },
     });
-    opt.removeEventListener("click", cb);
-    opt.addEventListener("click", cb);
+
+    
+    opt.removeEventListener("click",validate_option );
+    opt.addEventListener("click", (e)=>validate_option(e, question))
   });
+}
+
+function validate_option(ev:PointerEvent , question?:Question){
+  options.forEach(e=>e.style.pointerEvents="none")
+  const btn = ev.target as HTMLButtonElement
+      const btn_index =btn.getAttribute("data-option-index") 
+      if(Number(btn_index) === question?.correct_idx){
+        btn.classList.add("option-correct")
+        
+        
+      }else{
+        btn.classList.add("option-wrong")
+      }
 }

@@ -251,3 +251,10 @@ background: repeating-linear-gradient(
 .option:hover{
   filter: hue-rotate(90deg);
 }
+
+.option-correct{
+  background-color:  green;
+}
+.option-wrong{
+  background-color:  red;
+}
