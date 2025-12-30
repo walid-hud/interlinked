@@ -5,16 +5,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./src/style.css">
-  <title>Quizer | test your knowledge</title>
-  <style>
-  </style>
+  <title></title>
 </head>
 
-<body>  
-  <canvas id="grid"></canvas>
-  <script>
-    
-  </script>
+
+<body class="dark">
+  <main class="game">
+    <div class="game-name">
+      <p>
+        INTERLINKED
+      </p>
+    </div>
+    <div class="start-btn">
+      <button >
+        start
+      </button>
+    </div>
+    <div class="questions-container">
+      <div class="question">
+        <span class="text">
+        </span>
+        <span class="timer-text">
+          
+        </span>
+        <div class="timer-line"></div>
+      </div>
+      <div class="options">
+        <button data-option-index="0" class="option">
+        </button>
+        <button data-option-index="1" class="option">
+        </button>
+        <button data-option-index="2" class="option">
+
+        </button>
+        <button data-option-index="3" class="option">
+        </button>
+      </div>
+    </div>
+    <div>
+    </div>
+    <div class="game-stats">
+      <div class="last-bl">
+        <p>last baseline : </p>
+        <p data-last-baseline>
+        </p>
+      </div>
+      <div class="best-bl">
+        <p>
+          best baseline :
+        </p>
+        <p data-best-baseline>
+        </p>
+      </div>
+    </div>
+  </main>
   <script type="module" src="/src/main.ts"></script>
 </body>
 

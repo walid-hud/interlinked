@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 :root {
   --background: #f0f0f0;
   --foreground: #333333;
@@ -34,6 +35,7 @@
   --font-sans: Montserrat, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Fira Code, monospace;
+  --font-game: "Press Start 2P", system-ui;
   --radius: 0.35rem;
   --shadow-x: 0px;
   --shadow-y: 2px;
@@ -51,6 +53,8 @@
   --shadow-2xl: 0px 2px 0px 0px hsl(0 0% 20% / 0.38);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+  --neon-glow: color(display-p3 0 1 1);
+
 }
 
 .dark {
@@ -89,6 +93,8 @@
   --font-sans: Inter, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Fira Code, monospace;
+  --font-game: "Press Start 2P", system-ui;
+
   --radius: 0.35rem;
   --shadow-x: 0px;
   --shadow-y: 2px;
@@ -104,5 +110,144 @@
   --shadow-lg: 0px 2px 0px 0px hsl(0 0% 20% / 0.15), 0px 4px 6px -1px hsl(0 0% 20% / 0.15);
   --shadow-xl: 0px 2px 0px 0px hsl(0 0% 20% / 0.15), 0px 8px 10px -1px hsl(0 0% 20% / 0.15);
   --shadow-2xl: 0px 2px 0px 0px hsl(0 0% 20% / 0.38);
+  --neon-glow: color(display-p3 0 1 1);
+
 }
 
+body{
+  min-height: 100dvh;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  color: var(--foreground);
+  overflow-y: hidden;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0;
+}
+.game::before {
+content: "";
+pointer-events: none;
+position: absolute;
+inset: 0;
+z-index: 0;
+background: repeating-linear-gradient(
+  to bottom,
+  var(--muted),
+  transparent 1px,
+  transparent 3px
+);
+}
+
+.game{
+  height: 100dvh;
+  width: 100dvw;
+  inset: 0;
+  position: absolute;
+  background: var(--background);
+}
+
+
+.game-name{
+  margin-top: clamp(-4rem , -3vw , -1rem);
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  will-change: contents;
+  font-optical-sizing: auto;
+  p{
+    line-height: 0;
+    text-align: center;
+    font-size: clamp(2em , 9.1vw, 8rem);
+    font-family: var(--font-game);
+  }
+}
+
+.game-stats{
+  padding: 1rem;
+  opacity: 0;
+  font-family: var(--font-game);
+  font-size: 0.6rem;
+  position: fixed;
+  bottom: 0;
+  margin: 0.5rem;
+  border: 1px solid;
+  border-image: linear-gradient(
+  0deg,
+  var(--border),
+  var(--ring),
+  var(--chart-2)
+) 1;
+}
+.game-stats > div{
+  display: flex;
+  gap: 1rem;
+}
+.best-bl{
+  color: var(--chart-2);
+}
+.start-btn{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50%;
+  z-index: 9999;
+  padding: 0.8rem 2.5rem ;
+  button{
+    font-size: 1.6rem;
+    background: transparent;
+    border: 0;
+    color: var(--foreground) ;
+    cursor: pointer;
+
+  }
+}
+.questions-container{
+  width: 60vw;
+  left: 50%;
+  translate: -50%;
+  bottom: 0;
+  margin: 0.5rem ;
+  height: 70vh;
+  position: absolute;
+  opacity: 0;
+}
+
+.question{
+  font-size: 1.6rem;
+  white-space: nowrap;
+  width: fit-content;
+  text-align: center;
+  color: color-mix(in srgb, var(--chart-2), purple 10%);
+}
+.timer-line{
+  height: 4px;
+  width: 0%;
+  background-color: color-mix(in srgb, var(--card-foreground), purple 80%  );
+  transform: skewX(-45deg);
+  margin: 0.5rem 0;
+  box-shadow: 
+    0 0 50px var(--neon-glow), 
+    inset 0 0 50px var(--neon-glow);
+
+}
+
+.options{
+  padding: 4rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+.option{
+  text-align: center;
+  border: 1px solid var(--neon-glow);
+  cursor: pointer;
+  padding: 0.6rem 2rem;
+  min-width: 10rem;
+  background: transparent;
+  background: var(--card);
+  transition: all 300ms ease-in-out;
+  color: white;
+}
+.option:hover{
+  filter: hue-rotate(90deg);
+}
