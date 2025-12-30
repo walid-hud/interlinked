@@ -203,11 +203,11 @@ background: repeating-linear-gradient(
   }
 }
 .questions-container{
-  width: 60vw;
+  width: 70%;
   left: 50%;
   translate: -50%;
   bottom: 0;
-  margin: 0.5rem ;
+  margin: -2rem 0.5rem ;
   height: 70vh;
   position: absolute;
   opacity: 0;
@@ -215,7 +215,7 @@ background: repeating-linear-gradient(
 
 .question{
   font-size: 1.6rem;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   width: fit-content;
   text-align: center;
   color: color-mix(in srgb, var(--chart-2), purple 10%);
@@ -242,7 +242,7 @@ background: repeating-linear-gradient(
   border: 1px solid var(--neon-glow);
   cursor: pointer;
   padding: 0.6rem 2rem;
-  min-width: 10rem;
+  min-width: 12rem;
   background: transparent;
   background: var(--card);
   transition: all 300ms ease-in-out;
