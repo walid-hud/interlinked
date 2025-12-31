@@ -1,9 +1,5 @@
-export type Question = {
-    question:string,
-    options:string[],
-    correct_idx:number
-}
-export const data : Question[] = 
+import type {Question} from "./types"
+export const Questions : Question[] = 
 [
   {
     "question": "What does it feel like to be part of the system?",

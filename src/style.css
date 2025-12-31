@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 :root {
   --background: #f0f0f0;
   --foreground: #333333;
@@ -114,7 +115,7 @@
 
 }
 
-body{
+body {
   min-height: 100dvh;
   position: relative;
   padding: 0;
@@ -125,119 +126,139 @@ body{
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "clig" 0;
 }
+
 .game::before {
-content: "";
-pointer-events: none;
-position: absolute;
-inset: 0;
-z-index: 0;
-background: repeating-linear-gradient(
-  to bottom,
-  var(--muted),
-  transparent 1px,
-  transparent 3px
-);
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: repeating-linear-gradient(to bottom,
+      var(--muted),
+      transparent 1px,
+      transparent 3px);
 }
 
-.game{
+.game {
   height: 100dvh;
   width: 100dvw;
+  overflow: hidden;
   inset: 0;
   position: absolute;
   background: var(--background);
 }
 
 
-.game-name{
-  margin-top: clamp(-4rem , -3vw , -1rem);
+.game-name {
+  margin-top: clamp(-4rem, -3vw, -1rem);
   display: flex;
   position: relative;
   overflow: hidden;
   will-change: contents;
   font-optical-sizing: auto;
-  p{
+
+  p {
     line-height: 0;
     text-align: center;
-    font-size: clamp(2em , 9.1vw, 8rem);
+    font-size: clamp(2em, 9.1vw, 8rem);
     font-family: var(--font-game);
   }
 }
 
-.game-stats{
+.game-stats {
   padding: 1rem;
-  opacity: 0;
   font-family: var(--font-game);
   font-size: 0.6rem;
   position: fixed;
   bottom: 0;
   margin: 0.5rem;
   border: 1px solid;
-  border-image: linear-gradient(
-  0deg,
-  var(--border),
-  var(--ring),
-  var(--chart-2)
-) 1;
+  border-image: linear-gradient(0deg,
+      var(--border),
+      var(--ring),
+      var(--chart-2)) 1;
 }
-.game-stats > div{
+
+.game-stats>div {
   display: flex;
   gap: 1rem;
+  justify-content: space-between;
 }
-.best-bl{
+
+.best-bl {
   color: var(--chart-2);
 }
-.start-btn{
+
+.start-btn {
   position: absolute;
   left: 50%;
   top: 50%;
   translate: -50%;
   z-index: 9999;
-  padding: 0.8rem 2.5rem ;
-  button{
-    font-size: 1.6rem;
-    background: transparent;
-    border: 0;
-    color: var(--foreground) ;
-    cursor: pointer;
+  padding: 0.8rem 2.5rem;
 
+  button {
+    font-size: 1.2rem;
+    font-family: var(--font-game);
+    background: transparent;
+    border: 1px solid;
+    border-image: linear-gradient(45deg,
+        var(--neon-glow),    
+        var(--border),
+        var(--accent),
+        var(--neon-glow)) 1;
+    color: var(--foreground);
+    cursor: pointer;
+    padding: 1rem 2rem;
+    transition: all 100ms ease-in;
+  }
+  button:hover{
+    border-image: linear-gradient(-45deg,
+        var(--neon-glow),    
+        var(--border),
+        var(--accent),
+        var(--neon-glow)) 1;
   }
 }
-.questions-container{
+
+.questions-container {
   width: 70%;
   left: 50%;
   translate: -50%;
   bottom: 0;
-  margin: -2rem 0.5rem ;
+  margin: -2rem 0.5rem;
   height: 70vh;
   position: absolute;
   opacity: 0;
 }
 
-.question{
+.question {
   font-size: 1.6rem;
   /* white-space: nowrap; */
   width: fit-content;
   text-align: center;
   color: color-mix(in srgb, var(--chart-2), purple 10%);
 }
-.timer-line{
+
+.timer-line {
   height: 4px;
   width: 0%;
-  background-color: color-mix(in srgb, var(--card-foreground), purple 80%  );
+  background-color: color-mix(in srgb, var(--card-foreground), purple 80%);
   transform: skewX(-45deg);
   margin: 0.5rem 0;
-  box-shadow: 
-    0 0 50px var(--neon-glow), 
+  box-shadow:
+    0 0 50px var(--neon-glow),
     inset 0 0 50px var(--neon-glow);
 
 }
 
-.options{
+.options {
   padding: 4rem 0;
   display: flex;
   justify-content: space-between;
 }
-.option{
+
+.option {
   text-align: center;
   border: 1px solid var(--neon-glow);
   cursor: pointer;
@@ -248,13 +269,24 @@ background: repeating-linear-gradient(
   transition: all 300ms ease-in-out;
   color: white;
 }
-.option:hover{
+
+.option:hover {
   filter: hue-rotate(90deg);
 }
 
-.option-correct{
-  background-color:  green;
+.option-correct {
+  background-color: green;
 }
-.option-wrong{
-  background-color:  red;
+
+.option-wrong {
+  background-color: red;
+}
+
+.progress{
+  bottom: 0;
+  position: fixed;
+  height: 4px;
+  background: color-mix(in oklab, var(--neon-glow), white);
+  width: 0%;
+  transition: width 300ms ease-out;
 }
