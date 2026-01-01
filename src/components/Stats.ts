@@ -10,9 +10,26 @@ class Stats {
     private score_text: HTMLElement|null = null;
     private last_score_text: HTMLElement|null = null;
     private best_score_text: HTMLElement|null = null;
+    private progress_counter : number = 1;
+    private total_questions : number  = 20 
     private chars = "01234567899";
-
+    print_progress_bars(){
+        return Array.from({length:this.total_questions}).map((_,idx)=>{
+            if(idx+1 <= this.progress_counter){
+            return `<div class="bar"></div>`
+            }else{
+                return `<div class="bar remaining"></div>`
+            }
+        }).join("\n")}
     html = () => `
+    <div class="progress-counter">
+        <p>
+            Answered
+        </p>
+        <div class="bars">
+            ${this.print_progress_bars()}
+        </div>
+    </div>
     <div class="current-bl">
         <p>current baseline : </p>
         <p id="current-score-text">

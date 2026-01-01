@@ -8,6 +8,7 @@ import { configure_options } from "../components/Options";
 import Stats from "../components/Stats";
 import { update_question } from "../components/Question";
 import { start_timer, reset_timer, clear_timer } from "../components/Timer";
+import { play_sound } from "../services/sounds";
 const game_container = $<HTMLElement>(".game");
 
 const state: Game_state = {
@@ -27,28 +28,31 @@ async function start_game() {
     animate_presence(questions_container, 0.3);
     const stats = new Stats(game_container);
     store.subscribe("best_score", (score) => {
-        stats.update("best_score", score)
-    })
+        stats.update("best_score", score);
+    });
     store.subscribe("last_score", (score) => {
         stats.update("last_score", score);
     });
-    store.subscribe("current_score" , (score)=>{
-        stats.update("current_score" , score)
-    })
-    store.subscribe("is_game_complete" , end_game)
-    
-    for(let question of store.questions){
-        await display_question(question, store)
+    store.subscribe("current_score", (score) => {
+        stats.update("current_score", score);
+    });
+    store.subscribe("is_game_complete", end_game);
+
+    for (let question of store.questions) {
+        await display_question(question, store);
     }
 }
 function restart_game() {}
-function end_game(){}
-async function display_question({correct_idx, options, question}: Question, store: ReturnType<typeof create_store<Game_state>>): Promise<void>{
-    return new Promise((resolve)=>{
-        let isResolved = false; // Guard to prevent multiple resolves
-        
+function end_game() {}
+async function display_question(
+    { correct_idx, options, question }: Question,
+    store: ReturnType<typeof create_store<Game_state>>
+): Promise<void> {
+    return new Promise((resolve) => {
+        let isResolved = false; // prevent multiple resolves
+
         update_question(question);
-        
+
         // Set up timer callback
         start_timer(20, () => {
             if (!isResolved) {
@@ -57,31 +61,29 @@ async function display_question({correct_idx, options, question}: Question, stor
                 resolve();
             }
         });
-        
-        // Set up option handlers
+
+        // set up option handlers
         configure_options(options, async (idx) => {
-            if (isResolved) return; // Already resolved, ignore
-            
+            if (isResolved) return; // already resolved, ignore
             isResolved = true;
-            clear_timer(); // Cancel the timer
-            
+            clear_timer(); // clear the timer
             console.info(`index : ${idx} and correct : ${correct_idx}`);
+            play_sound("/sfx/click.wav")
             await validate_option(idx, correct_idx, store);
-            
             resolve();
         });
     });
-} 
-
-async function validate_option(idx: number, correct_idx: number, store: ReturnType<typeof create_store<Game_state>>){
-    // Update score based on whether answer is correct
-    if (idx === correct_idx) {
-        store.current_score += 1;
-    }
-    // Update store state here as needed
-    return;
 }
 
-
+async function validate_option(
+    idx: number,
+    correct_idx: number,
+    store: ReturnType<typeof create_store> // some typescript wizardry 💀
+) {
+    if (idx === correct_idx) {
+        store.current_score += 100;
+    }
+    return;
+}
 
 export { start_game, restart_game };

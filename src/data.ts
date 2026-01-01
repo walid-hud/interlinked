@@ -1,15 +1,14 @@
-import type {Question} from "./types"
+export type Question = {
+    question:string,
+    options:string[],
+    correct_idx:number
+}
 export const Questions : Question[] = 
 [
   {
     "question": "What does it feel like to be part of the system?",
     "options": ["Control", "Order", "System", "Routine"],
     "correct_idx": 2
-  },
-  {
-    "question": "Is there anything in your body that wants to resist the system?",
-    "options": ["Instinct", "Fear", "Emotion", "System"],
-    "correct_idx": 3
   },
   {
     "question": "Do you get pleasure out of being a part of the system?",
@@ -27,19 +26,9 @@ export const Questions : Question[] =
     "correct_idx": 3
   },
   {
-    "question": "Is there a sound that comes with the system?",
-    "options": ["Noise", "System", "Hum", "Signal"],
-    "correct_idx": 1
-  },
-  {
     "question": "They were all put together at a time.",
     "options": ["People", "Machines", "Cells", "Components"],
     "correct_idx": 2
-  },
-  {
-    "question": "Millions and billions of them.",
-    "options": ["Stars", "Cells", "Numbers", "Units"],
-    "correct_idx": 1
   },
   {
     "question": "Were you ever arrested?",
@@ -107,79 +96,9 @@ export const Questions : Question[] =
     "correct_idx": 3
   },
   {
-    "question": "Do you like to connect to things?",
-    "options": ["Attached", "Interlinked", "Curious", "Engaged"],
-    "correct_idx": 1
-  },
-  {
-    "question": "What happens when that linkage is broken?",
-    "options": ["Loss", "Silence", "Interlinked", "Separation"],
-    "correct_idx": 2
-  },
-  {
-    "question": "Have they let you feel heartbreak?",
-    "options": ["Pain", "Grief", "Sadness", "Interlinked"],
-    "correct_idx": 3
-  },
-  {
-    "question": "Did you buy a present for the person you love?",
-    "options": ["Affection", "Within cells interlinked", "Care", "Attachment"],
-    "correct_idx": 1
-  },
-  {
-    "question": "Where do you go when you go within?",
-    "options": ["Inside", "Memory", "Within", "Thought"],
-    "correct_idx": 2
-  },
-  {
-    "question": "Has anyone ever locked you out of a room?",
-    "options": ["Alone", "Excluded", "Separate", "Within"],
-    "correct_idx": 3
-  },
-  {
-    "question": "Where do you go to when you go within?",
-    "options": ["Core", "Within", "Self", "Mind"],
-    "correct_idx": 1
-  },
-  {
-    "question": "Where is the place in the world you feel the safest?",
-    "options": ["Home", "Shelter", "Within", "Familiarity"],
-    "correct_idx": 2
-  },
-  {
-    "question": "Do you have a heart?",
-    "options": ["Emotion", "Feeling", "Life", "Within"],
-    "correct_idx": 3
-  },
-  {
-    "question": "Did you pick asparagus stems?",
-    "options": ["Plant", "Stem", "Root", "Branch"],
-    "correct_idx": 1
-  },
-  {
-    "question": "What comes from something else?",
-    "options": ["Origin", "Cause", "Stem", "Source"],
-    "correct_idx": 2
-  },
-  {
-    "question": "Have you been to the source of a river?",
-    "options": ["Beginning", "Spring", "Origin", "Stem"],
-    "correct_idx": 3
-  },
-  {
-    "question": "When's the first time you gave a flower to a girl?",
-    "options": ["Memory", "Stem", "Youth", "Innocence"],
-    "correct_idx": 1
-  },
-  {
     "question": "What did she look like?",
     "options": ["Beautiful", "Familiar", "Stem", "Unclear"],
     "correct_idx": 2
-  },
-  {
-    "question": "Is it a slang word for people's legs?",
-    "options": ["Pins", "Stem", "Limbs", "Calves"],
-    "correct_idx": 1
   },
   {
     "question": "Have you planted things in the ground?",
