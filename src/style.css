@@ -233,7 +233,7 @@ body {
 
 .question {
   font-size: 1.6rem;
-  /* white-space: nowrap; */
+  white-space: nowrap;
   width: fit-content;
   text-align: center;
   color: color-mix(in srgb, var(--chart-2), purple 10%);
