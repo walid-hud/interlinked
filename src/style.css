@@ -198,7 +198,6 @@ body {
   padding: 0.8rem 2.5rem;
 
   button {
-    font-size: 1.2rem;
     font-family: var(--font-game);
     background: transparent;
     border: 1px solid;
@@ -213,7 +212,7 @@ body {
     transition: all 100ms ease-in;
   }
   button:hover{
-    border-image: linear-gradient(-45deg,
+    border-image: linear-gradient(145deg,
         var(--neon-glow),    
         var(--border),
         var(--accent),
