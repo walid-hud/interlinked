@@ -26,4 +26,8 @@ const animate_presence = async (
 
 };
 
+const animate_highlight = (el:string|HTMLElement)=>{
+    
+}
+
 export {animate_presence,text_transform}
