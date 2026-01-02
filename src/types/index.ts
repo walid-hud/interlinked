@@ -6,6 +6,7 @@ interface Game_state{
     total_questions:number
     is_game_active:boolean
     is_game_complete:boolean
+    remaining_questions:number
     questions:Question[]
 }
 

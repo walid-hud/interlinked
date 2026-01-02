@@ -8,12 +8,15 @@ import { $ } from "./utils";
 animate_presence(".game-name > p", 1);
 text_transform(".game-name > p", 1, "INTERLINKED" , "1234567890");
 
-on_game_start(() => {
+on_game_start(async () => {
     play_sound("/sfx/warp.wav")
     hide_btn();
     const game_container = $<HTMLElement>(".game");
-    const stats = new Stats(game_container);
+    new Stats(game_container);
+    animate()
+    let exit = false
+    while(!exit){
+        await start_game()
+    }
 
-    // start_game()
-    // animate()
 });

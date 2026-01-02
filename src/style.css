@@ -225,6 +225,10 @@ canvas {
   .remaining{
     background: var(--muted);
   }
+  .total-questions{
+    display: flex;
+    margin-top: 1rem;
+  }
 }
 
 

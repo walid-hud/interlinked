@@ -10,8 +10,9 @@ class Stats {
     private score_text: HTMLElement|null = null;
     private last_score_text: HTMLElement|null = null;
     private best_score_text: HTMLElement|null = null;
+    private total_questions_text:HTMLElement|null = null;
     private progress_counter : number = 1;
-    private total_questions : number  = 20 
+    private total_questions : number  = 20; 
     private chars = "01234567899";
     print_progress_bars(){
         return Array.from({length:this.total_questions}).map((_,idx)=>{
@@ -28,6 +29,14 @@ class Stats {
         </p>
         <div class="bars">
             ${this.print_progress_bars()}
+        </div>
+        <div class="total-questions">
+            <p>
+                total : 
+            </p>
+            <p id="total-questions-text">
+                ${this.total_questions}
+            </p>
         </div>
     </div>
     <div class="current-bl">
@@ -60,6 +69,7 @@ class Stats {
         if (this.el && this.root) {
             this.best_score = Storage.get("best_score");
             this.last_score = Storage.get("last_score");
+            this.total_questions_text = this.el.querySelector("#total-questions-text")!
             this.el.innerHTML = this.html();
             this.best_score_text = this.el.querySelector("#best-score-text")!;
             this.last_score_text = this.el.querySelector("#last-score-text")!;
@@ -70,7 +80,7 @@ class Stats {
         return;
     }
 
-    update(what: "current_score" | "last_score" | "best_score", value: number) {
+    update(what: "current_score" | "last_score" | "best_score" | "total_questions" | "progress", value: number) {
         switch (what) {
             case "current_score":
                 this.score = value;
@@ -82,13 +92,27 @@ class Stats {
                 Storage.set("last_score", value);
                 break;
             case "best_score":
-                this.best_score = value;
-                text_transform(this.best_score_text!, 2, value, this.chars);
-                Storage.set("best_score", value);
+                const old = Storage.get("best_score")
+                if(value >= old){
+                    this.best_score = value;
+                    Storage.set("best_score", value);
+                    text_transform(this.best_score_text!, 2, value, this.chars);
+                }
+
                 break;
+            case "total_questions":
+                this.total_questions = value
+                text_transform(this.total_questions_text!, 1, value, this.chars);
+                break;
+            case "progress":
+                this.progress_counter = value
+                this.render()
+                break
+
+
         }
     }
-    get(what: "current_score" | "last_score" | "best_score") {
+    get(what: "current_score" | "last_score" | "best_score" | "progress") {
         switch (what) {
             case "current_score":
                 return this.score;
@@ -96,6 +120,8 @@ class Stats {
                 return this.last_score;
             case "best_score":
                 return this.best_score;
+            case "progress":
+                return this.progress_counter
         }
     }
 }

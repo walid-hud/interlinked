@@ -11,23 +11,38 @@ import { start_timer, reset_timer, clear_timer } from "../components/Timer";
 import { play_sound } from "../services/sounds";
 const game_container = $<HTMLElement>(".game");
 
-const state: Game_state = {
-    best_score: Storage.get("best_score"),
-    current_question: "",
-    current_score: 0,
-    is_game_active: true,
-    is_game_complete: false,
-    last_score: Storage.get("last_score"),
-    questions: Questions,
-    total_questions: Questions.length,
-};
 
 const questions_container = $<HTMLElement>(".questions-container");
-async function start_game() {
+
+async function start_game(on_complete?:()=>void) {
+    const state: Game_state = {
+        best_score: Storage.get("best_score"),
+        current_question: "",
+        current_score: 0,
+        is_game_active: true,
+        is_game_complete: false,
+        last_score: Storage.get("last_score"),
+        questions: Questions,
+        total_questions: Questions.length,
+        remaining_questions: Questions.length,
+    };
     const store = create_store(state);
     animate_presence(questions_container, 0.3);
     const stats = new Stats(game_container);
-    store.subscribe("best_score", (score) => {
+
+    stats.update("total_questions", store.total_questions);
+
+    store.subscribe("remaining_questions", (value) => {
+        stats.update("progress", store.total_questions - value);
+    });
+
+    store.subscribe("is_game_complete", (value) => {
+        if (value) {
+            stats.update("last_score", store.current_score);
+        }
+    });
+
+    store.subscribe("current_score", (score) => {
         stats.update("best_score", score);
     });
     store.subscribe("last_score", (score) => {
@@ -40,6 +55,9 @@ async function start_game() {
 
     for (let question of store.questions) {
         await display_question(question, store);
+        if (store.remaining_questions === 0) {
+            store.is_game_complete = true;
+        }
     }
 }
 function restart_game() {}
@@ -50,13 +68,13 @@ async function display_question(
 ): Promise<void> {
     return new Promise((resolve) => {
         let isResolved = false; // prevent multiple resolves
-
         update_question(question);
-
         // Set up timer callback
-        start_timer(20, () => {
+        start_timer(10, () => {
             if (!isResolved) {
+                store.remaining_questions += -1;
                 isResolved = true;
+                play_sound("/sfx/click.wav");
                 clear_timer();
                 resolve();
             }
@@ -68,8 +86,9 @@ async function display_question(
             isResolved = true;
             clear_timer(); // clear the timer
             console.info(`index : ${idx} and correct : ${correct_idx}`);
-            play_sound("/sfx/click.wav")
+            play_sound("/sfx/click.wav");
             await validate_option(idx, correct_idx, store);
+            store.remaining_questions += -1;
             resolve();
         });
     });
@@ -83,6 +102,7 @@ async function validate_option(
     if (idx === correct_idx) {
         store.current_score += 100;
     }
+
     return;
 }
 
